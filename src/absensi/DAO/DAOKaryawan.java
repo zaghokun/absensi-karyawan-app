@@ -103,38 +103,4 @@ public class DAOKaryawan implements IKaryawan {
         }
         return 1;
     }
-public static void main(String[] args) {
-        DAOKaryawan dao = new DAOKaryawan();
-
-        // 1. Test CREATE (Tambah Data)
-        System.out.println("--- 1. Test Tambah Data ---");
-        Karyawan kBaru = new Karyawan();
-        kBaru.setIdKaryawan(1);
-        kBaru.setNama("Budi Santoso");
-        kBaru.setJabatan("Staff IT");
-        boolean hasilTambah = dao.tambah(kBaru);
-        System.out.println("Status Tambah: " + (hasilTambah ? "Berhasil" : "Gagal"));
-
-        // 2. Test READ (Tampil Semua)
-        System.out.println("\n--- 2. Test Tampil Data Setelah Ditambah ---");
-        for (Karyawan k : dao.getAll()) {
-            System.out.println(k.getIdKaryawan() + " - " + k.getNama() + " - " + k.getJabatan());
-        }
-
-        // 3. Test UPDATE (Ubah Data)
-        System.out.println("\n--- 3. Test Update Data ---");
-        Karyawan kEdit = new Karyawan();
-        kEdit.setIdKaryawan(1);
-        kEdit.setNama("Budi Santoso");
-        kEdit.setJabatan("Manager IT"); // Ubah jabatan
-        boolean hasilUpdate = dao.update(kEdit);
-        System.out.println("Status Update: " + (hasilUpdate ? "Berhasil" : "Gagal"));
-
-        // Test READ (Tampil berdasarkan ID untuk memastikan update berhasil)
-        System.out.println("\n--- Tampil Data Setelah Diupdate ---");
-        Karyawan kCek = dao.getById(1);
-        if (kCek != null) {
-            System.out.println(kCek.getIdKaryawan() + " - " + kCek.getNama() + " - " + kCek.getJabatan());
-        }
-    }
 }

@@ -3,20 +3,57 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package absensi.View;
-
+import absensi.Controller.ControllerShift;
+import absensi.Model.Shift;
+import absensi.Model.TableModelShift;
+import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
- * @author ASUS
+ * @author LENOVO
  */
 public class FormShift extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormShift.class.getName());
-
+    private final ControllerShift controllerShift = new ControllerShift();
+    private TableModelShift tableModel;
     /**
      * Creates new form FormShift
      */
     public FormShift() {
         initComponents();
+        setupForm();
+    }
+    
+    private void setupForm() {
+        // Kosongkan semua field
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+
+        // Load semua data shift ke tabel
+        refreshTabel();
+
+        // Klik baris tabel → isi field otomatis
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = jTable1.getSelectedRow();
+                if (row >= 0) {
+                    Shift s = tableModel.getShiftAt(row);
+                    jTextField1.setText(String.valueOf(s.getId_shift()));
+                    jTextField2.setText(s.getNama_shift());
+                    jTextField3.setText(s.getJam_masuk());
+                }
+            }
+        });
+    }
+    
+    private void refreshTabel() {
+        List<Shift> list = controllerShift.getAll();
+        tableModel = new TableModelShift(list);
+        jTable1.setModel(tableModel);
     }
 
     /**
@@ -28,22 +65,350 @@ public class FormShift extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Id");
+
+        jLabel2.setText("Nama Shift");
+
+        jLabel3.setText("Jam Masuk");
+
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+
+        jButton1.setText("Tambah");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setText("Update");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton3.setText("Hapus");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+
+        jButton4.setText("Refresh");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+
+        jLabel4.setText("Cari:");
+
+        jTextField4.setText("Nama Shift");
+        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+
+        jButton5.setText("Cari");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(32, 32, 32)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextField2))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextField3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        jButton5ActionPerformed(evt);
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String inputId       = jTextField1.getText().trim();
+        String inputNama     = jTextField2.getText().trim();
+        String inputJamMasuk = jTextField3.getText().trim();
+
+        // Validasi kosong
+        if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "ID, Nama Shift, dan Jam Masuk tidak boleh kosong!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi ID harus angka
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID harus berupa angka!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi format jam HH:mm:ss
+        if (!inputJamMasuk.matches("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$")) {
+            JOptionPane.showMessageDialog(this,
+                "Format jam masuk salah!\nGunakan format HH:mm:ss\nContoh: 08:00:00",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Cek ID sudah dipakai atau belum
+        if (controllerShift.getById(id) != null) {
+            JOptionPane.showMessageDialog(this,
+                "ID " + id + " sudah digunakan! Gunakan ID lain.",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Simpan ke database
+        Shift s = new Shift(id, inputNama, inputJamMasuk);
+        boolean berhasil = controllerShift.tambah(s);
+
+        if (berhasil) {
+            JOptionPane.showMessageDialog(this,
+                "Shift berhasil ditambahkan!",
+                "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+            bersihkanField();
+            refreshTabel();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Gagal menambahkan shift!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String inputId       = jTextField1.getText().trim();
+        String inputNama     = jTextField2.getText().trim();
+        String inputJamMasuk = jTextField3.getText().trim();
+
+        // Validasi kosong
+        if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Pilih dulu data dari tabel sebelum update!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi ID harus angka
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID tidak valid!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi format jam
+        if (!inputJamMasuk.matches("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$")) {
+            JOptionPane.showMessageDialog(this,
+                "Format jam masuk salah!\nGunakan format HH:mm:ss\nContoh: 14:00:00",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Konfirmasi sebelum update
+        int konfirmasi = JOptionPane.showConfirmDialog(this,
+            "Yakin ingin mengupdate shift ID " + id + "?",
+            "Konfirmasi Update", JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            Shift s = new Shift(id, inputNama, inputJamMasuk);
+            boolean berhasil = controllerShift.update(s);
+
+            if (berhasil) {
+                JOptionPane.showMessageDialog(this,
+                    "Data shift berhasil diupdate!",
+                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                bersihkanField();
+                refreshTabel();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Gagal mengupdate data shift!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        String inputId = jTextField1.getText().trim();
+
+        if (inputId.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Pilih dulu data dari tabel sebelum hapus!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID tidak valid!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Konfirmasi sebelum hapus
+        int konfirmasi = JOptionPane.showConfirmDialog(this,
+            "Yakin ingin menghapus shift ID " + id + "?\n"
+            + "Data absensi yang menggunakan shift ini juga akan terpengaruh!",
+            "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            boolean berhasil = controllerShift.hapus(id);
+
+            if (berhasil) {
+                JOptionPane.showMessageDialog(this,
+                    "Shift berhasil dihapus!",
+                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                bersihkanField();
+                refreshTabel();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Gagal menghapus shift!\n"
+                    + "Kemungkinan shift ini masih digunakan di data absensi.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        bersihkanField();
+        jTextField4.setText("");
+        refreshTabel();
+        JOptionPane.showMessageDialog(this,
+            "Data berhasil di-refresh!",
+            "Info", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String keyword = jTextField4.getText().trim();
+
+        if (keyword.isEmpty()) {
+            refreshTabel();
+            return;
+        }
+
+        // Filter dari list berdasarkan nama shift
+        List<Shift> semua = controllerShift.getAll();
+        List<Shift> hasil = new java.util.ArrayList<>();
+
+        for (Shift s : semua) {
+            if (s.getNama_shift().toLowerCase().contains(keyword.toLowerCase())) {
+                hasil.add(s);
+            }
+        }
+
+        if (hasil.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Shift dengan nama \"" + keyword + "\" tidak ditemukan!",
+                "Info", JOptionPane.INFORMATION_MESSAGE);
+            refreshTabel();
+        } else {
+            tableModel = new TableModelShift(hasil);
+            jTable1.setModel(tableModel);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void bersihkanField() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -70,5 +435,20 @@ public class FormShift extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

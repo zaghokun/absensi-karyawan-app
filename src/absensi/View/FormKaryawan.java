@@ -4,6 +4,12 @@
  */
 package absensi.View;
 
+import absensi.Controller.ControllerKaryawan;
+import absensi.Model.Karyawan;
+import absensi.Model.TableModelKaryawan;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ASUS
@@ -11,12 +17,45 @@ package absensi.View;
 public class FormKaryawan extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormKaryawan.class.getName());
-
+    private final ControllerKaryawan controllerKaryawan = new ControllerKaryawan();
+    private TableModelKaryawan tableModel;
     /**
      * Creates new form FormKaryawan
      */
     public FormKaryawan() {
         initComponents();
+        setupForm();
+    }
+    
+    private void setupForm() {
+        // Kosongkan field saat form pertama dibuka
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+
+        // Load semua data karyawan ke tabel
+        refreshTabel();
+
+        // Klik baris tabel → isi field otomatis
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = jTable1.getSelectedRow();
+                if (row >= 0) {
+                    Karyawan k = tableModel.getKaryawanAt(row);
+                    jTextField1.setText(String.valueOf(k.getIdKaryawan()));
+                    jTextField2.setText(k.getNama());
+                    jTextField3.setText(k.getJabatan());
+                }
+            }
+        });
+    }
+    
+    private void refreshTabel() {
+        List<Karyawan> list = controllerKaryawan.getAll();
+        tableModel = new TableModelKaryawan(list);
+        jTable1.setModel(tableModel);
     }
 
     /**
@@ -28,22 +67,334 @@ public class FormKaryawan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Id: ");
+
+        jLabel2.setText("Nama: ");
+
+        jLabel3.setText("Jabatan:");
+
+        jTextField1.setText("Isi Id");
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
+        jTextField2.setText("Isi nama");
+
+        jTextField3.setText("Isi Jabatan");
+
+        jButton1.setText("Tambah");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setText("Update");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton3.setText("Hapus");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+
+        jButton4.setText("Refresh");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel4.setText("Nama:");
+
+        jTextField4.setText("Masukkan nama");
+        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+
+        jButton5.setText("Cari");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        jButton5ActionPerformed(evt);
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String keyword = jTextField4.getText().trim();
+
+        if (keyword.isEmpty()) {
+            // Kalau field cari kosong, tampilkan semua data
+            refreshTabel();
+            return;
+        }
+
+        // Filter dari list yang sudah ada
+        List<Karyawan> semua = controllerKaryawan.getAll();
+        List<Karyawan> hasil = new java.util.ArrayList<>();
+
+        for (Karyawan k : semua) {
+            if (k.getNama().toLowerCase().contains(keyword.toLowerCase())) {
+                hasil.add(k);
+            }
+        }
+
+        if (hasil.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Karyawan dengan nama \"" + keyword + "\" tidak ditemukan!",
+                "Info", JOptionPane.INFORMATION_MESSAGE);
+            refreshTabel(); // tampilkan semua kalau tidak ketemu
+        } else {
+            tableModel = new TableModelKaryawan(hasil);
+            jTable1.setModel(tableModel);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String inputId     = jTextField1.getText().trim();
+        String inputNama   = jTextField2.getText().trim();
+        String inputJabatan = jTextField3.getText().trim();
+
+        // Validasi kosong
+        if (inputId.isEmpty() || inputNama.isEmpty() || inputJabatan.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "ID, Nama, dan Jabatan tidak boleh kosong!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi ID harus angka
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID harus berupa angka!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Cek ID sudah ada atau belum
+        if (controllerKaryawan.getById(id) != null) {
+            JOptionPane.showMessageDialog(this,
+                "ID " + id + " sudah digunakan! Gunakan ID lain.",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Simpan ke database
+        Karyawan k = new Karyawan(id, inputNama, inputJabatan);
+        boolean berhasil = controllerKaryawan.tambah(k);
+
+        if (berhasil) {
+            JOptionPane.showMessageDialog(this,
+                "Karyawan berhasil ditambahkan!",
+                "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+            bersihkanField();
+            refreshTabel();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Gagal menambahkan karyawan!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String inputId      = jTextField1.getText().trim();
+        String inputNama    = jTextField2.getText().trim();
+        String inputJabatan = jTextField3.getText().trim();
+
+        // Validasi kosong
+        if (inputId.isEmpty() || inputNama.isEmpty() || inputJabatan.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Pilih dulu data dari tabel sebelum update!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi ID harus angka
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID tidak valid!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Konfirmasi sebelum update
+        int konfirmasi = JOptionPane.showConfirmDialog(this,
+            "Yakin ingin mengupdate data karyawan ID " + id + "?",
+            "Konfirmasi Update", JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            Karyawan k = new Karyawan(id, inputNama, inputJabatan);
+            boolean berhasil = controllerKaryawan.update(k);
+
+            if (berhasil) {
+                JOptionPane.showMessageDialog(this,
+                    "Data karyawan berhasil diupdate!",
+                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                bersihkanField();
+                refreshTabel();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Gagal mengupdate data karyawan!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String inputId = jTextField1.getText().trim();
+
+        if (inputId.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Pilih dulu data dari tabel sebelum hapus!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID tidak valid!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Konfirmasi sebelum hapus
+        int konfirmasi = JOptionPane.showConfirmDialog(this,
+            "Yakin ingin menghapus karyawan ID " + id + "?\n"
+            + "Data absensi karyawan ini juga akan terpengaruh!",
+            "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            boolean berhasil = controllerKaryawan.hapus(id);
+
+            if (berhasil) {
+                JOptionPane.showMessageDialog(this,
+                    "Karyawan berhasil dihapus!",
+                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                bersihkanField();
+                refreshTabel();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Gagal menghapus karyawan!\n"
+                    + "Kemungkinan karyawan ini masih memiliki data absensi.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        bersihkanField();
+        jTextField4.setText("");
+        refreshTabel();
+        JOptionPane.showMessageDialog(this,
+            "Data berhasil di-refresh!",
+            "Info", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void bersihkanField() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -70,5 +421,20 @@ public class FormKaryawan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

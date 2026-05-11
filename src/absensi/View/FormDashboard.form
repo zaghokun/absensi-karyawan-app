@@ -71,6 +71,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Karyawan"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="karyawanBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="shiftBtn">
       <Properties>
@@ -84,6 +87,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Laporan Absensi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="laporanBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="aplikasiLabel">
       <Properties>

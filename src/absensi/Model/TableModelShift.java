@@ -38,4 +38,7 @@ public class TableModelShift extends AbstractTableModel {
         this.data = data;
         fireTableDataChanged();
     }
+    public Shift getShiftAt(int row) {
+        return data.get(row);
+    }
 }

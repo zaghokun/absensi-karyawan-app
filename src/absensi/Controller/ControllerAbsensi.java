@@ -43,4 +43,8 @@ public class ControllerAbsensi {
     public int getNextId() {
         return dao.getMaxId();
     }
+    
+    public boolean isSudahCheckin(int idKaryawan, String tanggal) {
+        return dao.isSudahCheckin(idKaryawan, tanggal);
+    }
 }

@@ -37,4 +37,8 @@ public class TableModelKaryawan extends AbstractTableModel {
         this.data = data;
         fireTableDataChanged();
     }
+    
+    public Karyawan getKaryawanAt(int row) {
+        return data.get(row);
+    }
 }

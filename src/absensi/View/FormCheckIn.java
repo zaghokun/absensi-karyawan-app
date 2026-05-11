@@ -4,6 +4,19 @@
  */
 package absensi.View;
 
+import absensi.Controller.ControllerAbsensi;
+import absensi.Controller.ControllerKaryawan;
+import absensi.Controller.ControllerShift;
+import absensi.Model.Absensi;
+import absensi.Model.Karyawan;
+import absensi.Model.Shift;
+import absensi.Model.TableModelAbsensi;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ASUS
@@ -11,13 +24,47 @@ package absensi.View;
 public class FormCheckIn extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormCheckIn.class.getName());
-
+    private final ControllerKaryawan controllerKaryawan = new ControllerKaryawan();
+    private final ControllerShift controllerShift       = new ControllerShift();
+    private final ControllerAbsensi controllerAbsensi   = new ControllerAbsensi();
+    private TableModelAbsensi tableModel;
+    
+    private javax.swing.Timer timerJam;
     /**
      * Creates new form FormCheckIn
      */
     public FormCheckIn() {
         initComponents();
+        setupForm();
     }
+    
+    private void setupForm() {
+        // Isi tanggal hari ini otomatis ke jLabel4
+        String tanggalHariIni = LocalDate.now().format(
+            DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        );
+        jLabel4.setText("Tanggal: " + tanggalHariIni);
+
+        // Timer update jam setiap 1 detik ke jLabel5
+        timerJam = new javax.swing.Timer(1000, e -> {
+            String jamSekarang = LocalTime.now().format(
+                DateTimeFormatter.ofPattern("HH:mm:ss")
+            );
+            jLabel5.setText("Jam: " + jamSekarang);
+        });
+        timerJam.start();
+
+        // Load data absensi hari ini ke JTable
+        refreshTabel();
+    }
+    
+     private void refreshTabel() {
+        String tanggalHariIni = LocalDate.now().toString(); // format: 2026-05-11
+        List<Absensi> listAbsensi = controllerAbsensi.getByTanggal(tanggalHariIni);
+        tableModel = new TableModelAbsensi(listAbsensi);
+        jTable1.setModel(tableModel);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,21 +75,222 @@ public class FormCheckIn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Form Check In");
+
+        jLabel2.setText("Id:");
+
+        jTextField1.setText("Masukkan id Karyawan");
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
+        jLabel3.setText("Nama:");
+
+        jTextField2.setText("Masukkan Nama karyawan");
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+
+        jLabel4.setText("Tanggal:");
+
+        jLabel5.setText("Jam:");
+
+        jButton1.setText("Check In");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField2))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addContainerGap(210, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         // 1. Ambil input
+        String inputId   = jTextField1.getText().trim();
+        String inputNama = jTextField2.getText().trim();
+
+        // 2. Validasi tidak boleh kosong
+        if (inputId.isEmpty() || inputNama.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "ID dan Nama karyawan tidak boleh kosong!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Validasi ID harus angka
+        int idKaryawan;
+        try {
+            idKaryawan = Integer.parseInt(inputId);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "ID karyawan harus berupa angka!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 4. Cek karyawan ada di database
+        Karyawan karyawan = controllerKaryawan.getById(idKaryawan);
+        if (karyawan == null) {
+            JOptionPane.showMessageDialog(this,
+                "Karyawan dengan ID " + idKaryawan + " tidak ditemukan!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 5. Cek nama sesuai ID
+        if (!karyawan.getNama().equalsIgnoreCase(inputNama)) {
+            JOptionPane.showMessageDialog(this,
+                "Nama tidak sesuai dengan ID karyawan!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 6. Cek sudah check-in hari ini
+        String tanggalHariIni = LocalDate.now().toString();
+        if (controllerAbsensi.isSudahCheckin(idKaryawan, tanggalHariIni)) {
+            JOptionPane.showMessageDialog(this,
+                karyawan.getNama() + " sudah melakukan check-in hari ini!",
+                "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 7. Ambil shift id 1 (default Shift Pagi)
+        // ↑ getter Shift pakai underscore sesuai DAOShift
+        Shift shift = controllerShift.getById(1);
+        if (shift == null) {
+            JOptionPane.showMessageDialog(this,
+                "Data shift tidak ditemukan! Pastikan tabel_shift sudah ada datanya.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 8. Ambil waktu sekarang dari sistem
+        LocalTime waktuCheckin = LocalTime.now();
+        String waktuStr = waktuCheckin.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        // 9. Hitung status otomatis
+        // getter jam_masuk pakai underscore: getJam_masuk()
+        LocalTime jamMasukShift = LocalTime.parse(shift.getJam_masuk());
+        String status = waktuCheckin.compareTo(jamMasukShift) <= 0
+                        ? "Hadir Tepat Waktu"
+                        : "Terlambat";
+
+        // 10. Simpan ke database
+        int newId = controllerAbsensi.getNextId();
+        Absensi absensi = new Absensi(
+            newId,
+            idKaryawan,
+            shift.getId_shift(),   // getter pakai underscore
+            tanggalHariIni,
+            waktuStr,
+            status
+        );
+
+        boolean berhasil = controllerAbsensi.tambah(absensi);
+
+        // 11. Tampilkan notifikasi hasil
+        if (berhasil) {
+            JOptionPane.showMessageDialog(this,
+                "Check-in berhasil!\n"
+                + "Nama   : " + karyawan.getNama() + "\n"
+                + "Jam    : " + waktuStr + "\n"
+                + "Status : " + status,
+                "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+
+            jTextField1.setText("");
+            jTextField2.setText("");
+            refreshTabel();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Check-in gagal! Coba lagi.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +318,15 @@ public class FormCheckIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

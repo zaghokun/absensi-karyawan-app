@@ -40,11 +40,13 @@ public class FormDashboard extends javax.swing.JFrame {
         checkInBtn.addActionListener(this::checkInBtnActionPerformed);
 
         karyawanBtn.setText("Karyawan");
+        karyawanBtn.addActionListener(this::karyawanBtnActionPerformed);
 
         shiftBtn.setText("Shift");
         shiftBtn.addActionListener(this::shiftBtnActionPerformed);
 
         laporanBtn.setText("Laporan Absensi");
+        laporanBtn.addActionListener(this::laporanBtnActionPerformed);
 
         aplikasiLabel.setText("APLIKASI ABSEN KARYAWAN");
 
@@ -85,12 +87,24 @@ public class FormDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
-        // TODO add your handling code here:
+        new FormCheckIn().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_checkInBtnActionPerformed
 
     private void shiftBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shiftBtnActionPerformed
-        // TODO add your handling code here:
+        new FormShift().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_shiftBtnActionPerformed
+
+    private void karyawanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_karyawanBtnActionPerformed
+        new FormKaryawan().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_karyawanBtnActionPerformed
+
+    private void laporanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanBtnActionPerformed
+        new FormLaporan().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_laporanBtnActionPerformed
 
     /**
      * @param args the command line arguments

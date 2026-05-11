@@ -139,4 +139,18 @@ public class DAOAbsensi implements IAbsensi {
         }
         return 1;
     }
+    
+    public boolean isSudahCheckin(int idKaryawan, String tanggal) {
+    String sql = "SELECT COUNT(*) FROM tabel_absensi WHERE fk_karyawan = ? AND tanggal = ?";
+    try (Connection conn = Koneksi.getKoneksi();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, idKaryawan);
+        ps.setString(2, tanggal);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) return rs.getInt(1) > 0;
+    } catch (SQLException e) {
+        System.out.println("Error isSudahCheckin: " + e.getMessage());
+    }
+    return false;
+}
 }
