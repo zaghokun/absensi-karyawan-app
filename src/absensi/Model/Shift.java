@@ -31,4 +31,9 @@ public class Shift {
 
     public String getJam_masuk()  { return jam_masuk; }
     public void setJam_masuk(String jam_masuk) { this.jam_masuk = jam_masuk; }
+    
+    @Override
+    public String toString() {
+        return nama_shift + " (" + jam_masuk + ")";
+    }
 }

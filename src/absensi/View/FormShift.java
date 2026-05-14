@@ -27,10 +27,10 @@ public class FormShift extends javax.swing.JFrame {
     
     private void setupForm() {
         // Kosongkan semua field
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
+        idTF.setText("");
+        namaTF.setText("");
+        jamTF.setText("");
+        cariNamaTF.setText("");
 
         // Load semua data shift ke tabel
         refreshTabel();
@@ -42,9 +42,9 @@ public class FormShift extends javax.swing.JFrame {
                 int row = jTable1.getSelectedRow();
                 if (row >= 0) {
                     Shift s = tableModel.getShiftAt(row);
-                    jTextField1.setText(String.valueOf(s.getId_shift()));
-                    jTextField2.setText(s.getNama_shift());
-                    jTextField3.setText(s.getJam_masuk());
+                    idTF.setText(String.valueOf(s.getId_shift()));
+                    namaTF.setText(s.getNama_shift());
+                    jamTF.setText(s.getJam_masuk());
                 }
             }
         });
@@ -65,51 +65,52 @@ public class FormShift extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        idLabel = new javax.swing.JLabel();
+        namaLabel = new javax.swing.JLabel();
+        jamLabel = new javax.swing.JLabel();
+        idTF = new javax.swing.JTextField();
+        namaTF = new javax.swing.JTextField();
+        jamTF = new javax.swing.JTextField();
+        tambahBtn = new javax.swing.JButton();
+        updateBtn = new javax.swing.JButton();
+        hapusBtn = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
+        cariLabel = new javax.swing.JLabel();
+        cariNamaTF = new javax.swing.JTextField();
+        cariBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        backBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Id");
+        idLabel.setText("Id");
 
-        jLabel2.setText("Nama Shift");
+        namaLabel.setText("Nama Shift");
 
-        jLabel3.setText("Jam Masuk");
+        jamLabel.setText("Jam Masuk");
 
-        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+        namaTF.addActionListener(this::namaTFActionPerformed);
 
-        jButton1.setText("Tambah");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        tambahBtn.setText("Tambah");
+        tambahBtn.addActionListener(this::tambahBtnActionPerformed);
 
-        jButton2.setText("Update");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        updateBtn.setText("Update");
+        updateBtn.addActionListener(this::updateBtnActionPerformed);
 
-        jButton3.setText("Hapus");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        hapusBtn.setText("Hapus");
+        hapusBtn.addActionListener(this::hapusBtnActionPerformed);
 
-        jButton4.setText("Refresh");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        refreshBtn.setText("Refresh");
+        refreshBtn.addActionListener(this::refreshBtnActionPerformed);
 
-        jLabel4.setText("Cari:");
+        cariLabel.setText("Cari:");
 
-        jTextField4.setText("Nama Shift");
-        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+        cariNamaTF.setText("Nama Shift");
+        cariNamaTF.addActionListener(this::cariNamaTFActionPerformed);
 
-        jButton5.setText("Cari");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        cariBtn.setText("Cari");
+        cariBtn.addActionListener(this::cariBtnActionPerformed);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,42 +125,50 @@ public class FormShift extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        backBtn.setText("Back");
+        backBtn.addActionListener(this::backBtnActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(32, 32, 32)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextField2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextField3)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(32, 32, 32)
+                                    .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(namaLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(namaTF))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jamLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jamTF)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tambahBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(updateBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(hapusBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(refreshBtn))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backBtn)))
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cariLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cariNamaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5))
+                        .addComponent(cariBtn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -168,29 +177,31 @@ public class FormShift extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idLabel)
+                    .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(namaLabel)
+                    .addComponent(namaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jamLabel)
+                    .addComponent(jamTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tambahBtn)
+                    .addComponent(updateBtn)
+                    .addComponent(hapusBtn)
+                    .addComponent(refreshBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backBtn)
+                .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(cariLabel)
+                    .addComponent(cariNamaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cariBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 20, Short.MAX_VALUE))
@@ -199,18 +210,18 @@ public class FormShift extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void namaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaTFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_namaTFActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        jButton5ActionPerformed(evt);
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    private void cariNamaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariNamaTFActionPerformed
+        cariBtnActionPerformed(evt);
+    }//GEN-LAST:event_cariNamaTFActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String inputId       = jTextField1.getText().trim();
-        String inputNama     = jTextField2.getText().trim();
-        String inputJamMasuk = jTextField3.getText().trim();
+    private void tambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahBtnActionPerformed
+        String inputId       = idTF.getText().trim();
+        String inputNama     = namaTF.getText().trim();
+        String inputJamMasuk = jamTF.getText().trim();
 
         // Validasi kosong
         if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
@@ -262,12 +273,12 @@ public class FormShift extends javax.swing.JFrame {
                 "Gagal menambahkan shift!",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_tambahBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String inputId       = jTextField1.getText().trim();
-        String inputNama     = jTextField2.getText().trim();
-        String inputJamMasuk = jTextField3.getText().trim();
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
+        String inputId       = idTF.getText().trim();
+        String inputNama     = namaTF.getText().trim();
+        String inputJamMasuk = jamTF.getText().trim();
 
         // Validasi kosong
         if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
@@ -317,11 +328,11 @@ public class FormShift extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_updateBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void hapusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBtnActionPerformed
 
-        String inputId = jTextField1.getText().trim();
+        String inputId = idTF.getText().trim();
 
         if (inputId.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -363,19 +374,19 @@ public class FormShift extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_hapusBtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         bersihkanField();
-        jTextField4.setText("");
+        cariNamaTF.setText("");
         refreshTabel();
         JOptionPane.showMessageDialog(this,
             "Data berhasil di-refresh!",
             "Info", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_refreshBtnActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String keyword = jTextField4.getText().trim();
+    private void cariBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariBtnActionPerformed
+        String keyword = cariNamaTF.getText().trim();
 
         if (keyword.isEmpty()) {
             refreshTabel();
@@ -401,12 +412,17 @@ public class FormShift extends javax.swing.JFrame {
             tableModel = new TableModelShift(hasil);
             jTable1.setModel(tableModel);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_cariBtnActionPerformed
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        new FormDashboard().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backBtnActionPerformed
 
     private void bersihkanField() {
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
+        idTF.setText("");
+        namaTF.setText("");
+        jamTF.setText("");
     }
     
     /**
@@ -435,20 +451,21 @@ public class FormShift extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JButton backBtn;
+    private javax.swing.JButton cariBtn;
+    private javax.swing.JLabel cariLabel;
+    private javax.swing.JTextField cariNamaTF;
+    private javax.swing.JButton hapusBtn;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JTextField idTF;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel jamLabel;
+    private javax.swing.JTextField jamTF;
+    private javax.swing.JLabel namaLabel;
+    private javax.swing.JTextField namaTF;
+    private javax.swing.JButton refreshBtn;
+    private javax.swing.JButton tambahBtn;
+    private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,4 +41,8 @@ public class TableModelAbsensi extends AbstractTableModel {
         this.data = data;
         fireTableDataChanged();
     }
+    
+    public Absensi getAbsensiAt(int row) {
+        return data.get(row);
+    }
 }
