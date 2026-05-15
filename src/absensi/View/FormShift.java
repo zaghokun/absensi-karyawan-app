@@ -4,56 +4,27 @@
  */
 package absensi.View;
 import absensi.Controller.ControllerShift;
-import absensi.Model.Shift;
-import absensi.Model.TableModelShift;
-import java.util.List;
-import javax.swing.JOptionPane;
 /**
  *
  * @author LENOVO
  */
 public class FormShift extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormShift.class.getName());
-    private final ControllerShift controllerShift = new ControllerShift();
-    private TableModelShift tableModel;
-    /**
-     * Creates new form FormShift
-     */
+    private static final java.util.logging.Logger logger =
+        java.util.logging.Logger.getLogger(FormShift.class.getName());
+
+    private ControllerShift cbs;
+
     public FormShift() {
         initComponents();
-        setupForm();
+        setupController();
     }
-    
-    private void setupForm() {
-        // Kosongkan semua field
-        idTF.setText("");
-        namaTF.setText("");
-        jamTF.setText("");
-        cariNamaTF.setText("");
 
-        // Load semua data shift ke tabel
-        refreshTabel();
-
-        // Klik baris tabel → isi field otomatis
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                int row = jTable1.getSelectedRow();
-                if (row >= 0) {
-                    Shift s = tableModel.getShiftAt(row);
-                    idTF.setText(String.valueOf(s.getId_shift()));
-                    namaTF.setText(s.getNama_shift());
-                    jamTF.setText(s.getJam_masuk());
-                }
-            }
-        });
-    }
-    
-    private void refreshTabel() {
-        List<Shift> list = controllerShift.getAll();
-        tableModel = new TableModelShift(list);
-        jTable1.setModel(tableModel);
+    private void setupController() {
+        cbs = new ControllerShift(
+            idTF, namaTF, jamTF, cariNamaTF, jTable1
+        );
+        cbs.init();
     }
 
     /**
@@ -215,225 +186,45 @@ public class FormShift extends javax.swing.JFrame {
     }//GEN-LAST:event_namaTFActionPerformed
 
     private void cariNamaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariNamaTFActionPerformed
-        cariBtnActionPerformed(evt);
+        cbs.cariNama();
     }//GEN-LAST:event_cariNamaTFActionPerformed
 
     private void tambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahBtnActionPerformed
-        String inputId       = idTF.getText().trim();
-        String inputNama     = namaTF.getText().trim();
-        String inputJamMasuk = jamTF.getText().trim();
-
-        // Validasi kosong
-        if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "ID, Nama Shift, dan Jam Masuk tidak boleh kosong!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi ID harus angka
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID harus berupa angka!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi format jam HH:mm:ss
-        if (!inputJamMasuk.matches("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$")) {
-            JOptionPane.showMessageDialog(this,
-                "Format jam masuk salah!\nGunakan format HH:mm:ss\nContoh: 08:00:00",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Cek ID sudah dipakai atau belum
-        if (controllerShift.getById(id) != null) {
-            JOptionPane.showMessageDialog(this,
-                "ID " + id + " sudah digunakan! Gunakan ID lain.",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Simpan ke database
-        Shift s = new Shift(id, inputNama, inputJamMasuk);
-        boolean berhasil = controllerShift.tambah(s);
-
-        if (berhasil) {
-            JOptionPane.showMessageDialog(this,
-                "Shift berhasil ditambahkan!",
-                "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-            bersihkanField();
-            refreshTabel();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Gagal menambahkan shift!",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        cbs.insert();
+        cbs.isiTable();
+        cbs.reset();
     }//GEN-LAST:event_tambahBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        String inputId       = idTF.getText().trim();
-        String inputNama     = namaTF.getText().trim();
-        String inputJamMasuk = jamTF.getText().trim();
-
-        // Validasi kosong
-        if (inputId.isEmpty() || inputNama.isEmpty() || inputJamMasuk.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Pilih dulu data dari tabel sebelum update!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi ID harus angka
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID tidak valid!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi format jam
-        if (!inputJamMasuk.matches("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$")) {
-            JOptionPane.showMessageDialog(this,
-                "Format jam masuk salah!\nGunakan format HH:mm:ss\nContoh: 14:00:00",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Konfirmasi sebelum update
-        int konfirmasi = JOptionPane.showConfirmDialog(this,
-            "Yakin ingin mengupdate shift ID " + id + "?",
-            "Konfirmasi Update", JOptionPane.YES_NO_OPTION);
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            Shift s = new Shift(id, inputNama, inputJamMasuk);
-            boolean berhasil = controllerShift.update(s);
-
-            if (berhasil) {
-                JOptionPane.showMessageDialog(this,
-                    "Data shift berhasil diupdate!",
-                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                bersihkanField();
-                refreshTabel();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                    "Gagal mengupdate data shift!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        cbs.update();
+        cbs.isiTable();
+        cbs.reset();
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void hapusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBtnActionPerformed
-
-        String inputId = idTF.getText().trim();
-
-        if (inputId.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Pilih dulu data dari tabel sebelum hapus!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID tidak valid!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Konfirmasi sebelum hapus
-        int konfirmasi = JOptionPane.showConfirmDialog(this,
-            "Yakin ingin menghapus shift ID " + id + "?\n"
-            + "Data absensi yang menggunakan shift ini juga akan terpengaruh!",
-            "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            boolean berhasil = controllerShift.hapus(id);
-
-            if (berhasil) {
-                JOptionPane.showMessageDialog(this,
-                    "Shift berhasil dihapus!",
-                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                bersihkanField();
-                refreshTabel();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                    "Gagal menghapus shift!\n"
-                    + "Kemungkinan shift ini masih digunakan di data absensi.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        cbs.delete();
+        cbs.isiTable();
+        cbs.reset();
     }//GEN-LAST:event_hapusBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        bersihkanField();
-        cariNamaTF.setText("");
-        refreshTabel();
-        JOptionPane.showMessageDialog(this,
-            "Data berhasil di-refresh!",
-            "Info", JOptionPane.INFORMATION_MESSAGE);
+        cbs.isiTable();
+        cbs.reset();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void cariBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariBtnActionPerformed
-        String keyword = cariNamaTF.getText().trim();
-
-        if (keyword.isEmpty()) {
-            refreshTabel();
-            return;
-        }
-
-        // Filter dari list berdasarkan nama shift
-        List<Shift> semua = controllerShift.getAll();
-        List<Shift> hasil = new java.util.ArrayList<>();
-
-        for (Shift s : semua) {
-            if (s.getNama_shift().toLowerCase().contains(keyword.toLowerCase())) {
-                hasil.add(s);
-            }
-        }
-
-        if (hasil.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Shift dengan nama \"" + keyword + "\" tidak ditemukan!",
-                "Info", JOptionPane.INFORMATION_MESSAGE);
-            refreshTabel();
-        } else {
-            tableModel = new TableModelShift(hasil);
-            jTable1.setModel(tableModel);
-        }
+        cbs.cariNama();
     }//GEN-LAST:event_cariBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         new FormDashboard().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
-
-    private void bersihkanField() {
-        idTF.setText("");
-        namaTF.setText("");
-        jamTF.setText("");
-    }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -444,9 +235,6 @@ public class FormShift extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FormShift().setVisible(true));
     }
 

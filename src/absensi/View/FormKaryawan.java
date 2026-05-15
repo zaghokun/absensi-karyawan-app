@@ -5,10 +5,6 @@
 package absensi.View;
 
 import absensi.Controller.ControllerKaryawan;
-import absensi.Model.Karyawan;
-import absensi.Model.TableModelKaryawan;
-import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,46 +12,21 @@ import javax.swing.JOptionPane;
  */
 public class FormKaryawan extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormKaryawan.class.getName());
-    private final ControllerKaryawan controllerKaryawan = new ControllerKaryawan();
-    private TableModelKaryawan tableModel;
-    /**
-     * Creates new form FormKaryawan
-     */
+    private static final java.util.logging.Logger logger =
+        java.util.logging.Logger.getLogger(FormKaryawan.class.getName());
+
+    private ControllerKaryawan cbk;
+
     public FormKaryawan() {
         initComponents();
-        setupForm();
+        setupController();
     }
-    
-    private void setupForm() {
-        // Kosongkan field saat form pertama dibuka
-        idTF.setText("");
-        namaTF.setText("");
-        jabatanTF.setText("");
-        cariNamaTF.setText("");
 
-        // Load semua data karyawan ke tabel
-        refreshTabel();
-
-        // Klik baris tabel → isi field otomatis
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                int row = jTable1.getSelectedRow();
-                if (row >= 0) {
-                    Karyawan k = tableModel.getKaryawanAt(row);
-                    idTF.setText(String.valueOf(k.getIdKaryawan()));
-                    namaTF.setText(k.getNama());
-                    jabatanTF.setText(k.getJabatan());
-                }
-            }
-        });
-    }
-    
-    private void refreshTabel() {
-        List<Karyawan> list = controllerKaryawan.getAll();
-        tableModel = new TableModelKaryawan(list);
-        jTable1.setModel(tableModel);
+    private void setupController() {
+        cbk = new ControllerKaryawan(
+            idTF, namaTF, jabatanTF, cariNamaTF, jTable1
+        );
+        cbk.init();
     }
 
     /**
@@ -218,187 +189,34 @@ public class FormKaryawan extends javax.swing.JFrame {
     }//GEN-LAST:event_idTFActionPerformed
 
     private void cariNamaTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariNamaTFActionPerformed
-        cariBtnActionPerformed(evt);
+        cbk.cariNama();
     }//GEN-LAST:event_cariNamaTFActionPerformed
 
     private void cariBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariBtnActionPerformed
-        String keyword = cariNamaTF.getText().trim();
-
-        if (keyword.isEmpty()) {
-            // Kalau field cari kosong, tampilkan semua data
-            refreshTabel();
-            return;
-        }
-
-        // Filter dari list yang sudah ada
-        List<Karyawan> semua = controllerKaryawan.getAll();
-        List<Karyawan> hasil = new java.util.ArrayList<>();
-
-        for (Karyawan k : semua) {
-            if (k.getNama().toLowerCase().contains(keyword.toLowerCase())) {
-                hasil.add(k);
-            }
-        }
-
-        if (hasil.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Karyawan dengan nama \"" + keyword + "\" tidak ditemukan!",
-                "Info", JOptionPane.INFORMATION_MESSAGE);
-            refreshTabel(); // tampilkan semua kalau tidak ketemu
-        } else {
-            tableModel = new TableModelKaryawan(hasil);
-            jTable1.setModel(tableModel);
-        }
+        cbk.cariNama();
     }//GEN-LAST:event_cariBtnActionPerformed
 
     private void tambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahBtnActionPerformed
-        String inputId     = idTF.getText().trim();
-        String inputNama   = namaTF.getText().trim();
-        String inputJabatan = jabatanTF.getText().trim();
-
-        // Validasi kosong
-        if (inputId.isEmpty() || inputNama.isEmpty() || inputJabatan.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "ID, Nama, dan Jabatan tidak boleh kosong!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi ID harus angka
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID harus berupa angka!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Cek ID sudah ada atau belum
-        if (controllerKaryawan.getById(id) != null) {
-            JOptionPane.showMessageDialog(this,
-                "ID " + id + " sudah digunakan! Gunakan ID lain.",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Simpan ke database
-        Karyawan k = new Karyawan(id, inputNama, inputJabatan);
-        boolean berhasil = controllerKaryawan.tambah(k);
-
-        if (berhasil) {
-            JOptionPane.showMessageDialog(this,
-                "Karyawan berhasil ditambahkan!",
-                "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-            bersihkanField();
-            refreshTabel();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Gagal menambahkan karyawan!",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        cbk.insert();
+        cbk.isiTable();
+        cbk.reset();
     }//GEN-LAST:event_tambahBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        String inputId      = idTF.getText().trim();
-        String inputNama    = namaTF.getText().trim();
-        String inputJabatan = jabatanTF.getText().trim();
-
-        // Validasi kosong
-        if (inputId.isEmpty() || inputNama.isEmpty() || inputJabatan.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Pilih dulu data dari tabel sebelum update!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validasi ID harus angka
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID tidak valid!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Konfirmasi sebelum update
-        int konfirmasi = JOptionPane.showConfirmDialog(this,
-            "Yakin ingin mengupdate data karyawan ID " + id + "?",
-            "Konfirmasi Update", JOptionPane.YES_NO_OPTION);
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            Karyawan k = new Karyawan(id, inputNama, inputJabatan);
-            boolean berhasil = controllerKaryawan.update(k);
-
-            if (berhasil) {
-                JOptionPane.showMessageDialog(this,
-                    "Data karyawan berhasil diupdate!",
-                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                bersihkanField();
-                refreshTabel();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                    "Gagal mengupdate data karyawan!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        cbk.update();
+        cbk.isiTable();
+        cbk.reset();
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void hapusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBtnActionPerformed
-        String inputId = idTF.getText().trim();
-
-        if (inputId.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Pilih dulu data dari tabel sebelum hapus!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int id;
-        try {
-            id = Integer.parseInt(inputId);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "ID tidak valid!",
-                "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Konfirmasi sebelum hapus
-        int konfirmasi = JOptionPane.showConfirmDialog(this,
-            "Yakin ingin menghapus karyawan ID " + id + "?\n"
-            + "Data absensi karyawan ini juga akan terpengaruh!",
-            "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            boolean berhasil = controllerKaryawan.hapus(id);
-
-            if (berhasil) {
-                JOptionPane.showMessageDialog(this,
-                    "Karyawan berhasil dihapus!",
-                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                bersihkanField();
-                refreshTabel();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                    "Gagal menghapus karyawan!\n"
-                    + "Kemungkinan karyawan ini masih memiliki data absensi.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        cbk.delete();
+        cbk.isiTable();
+        cbk.reset();
     }//GEN-LAST:event_hapusBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        bersihkanField();
-        cariNamaTF.setText("");
-        refreshTabel();
-        JOptionPane.showMessageDialog(this,
-            "Data berhasil di-refresh!",
-            "Info", JOptionPane.INFORMATION_MESSAGE);
+        cbk.isiTable();
+        cbk.reset();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
@@ -406,21 +224,10 @@ public class FormKaryawan extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
-    private void bersihkanField() {
-        idTF.setText("");
-        namaTF.setText("");
-        jabatanTF.setText("");
-    }
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -431,9 +238,6 @@ public class FormKaryawan extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FormKaryawan().setVisible(true));
     }
 
