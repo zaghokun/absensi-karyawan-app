@@ -3,21 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/View/FormCheckIn.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/View/FormDashboard.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/View/FormKaryawan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/View/FormShift.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Controller/ControllerKaryawan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/View/FormLaporan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/DAO/DAOKaryawan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Controller/ControllerAbsensi.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/DAO/DAOAbsensi.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/Karyawan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/Absensi.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/TableModelKaryawan.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/TableModelShift.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/Shift.java</file>
-            <file>file:/D:/Kampus/Materi/Semester%204/PBO/AbsensiKaryawn/src/absensi/Model/TableModelAbsensi.java</file>
+            <file>file:/D:/NetBeans/absensi-karyawan-app/src/absensi/View/FormLaporan.java</file>
+            <file>file:/D:/NetBeans/absensi-karyawan-app/src/absensi/View/FormKaryawan.java</file>
+            <file>file:/D:/NetBeans/absensi-karyawan-app/src/absensi/View/FormDashboard.java</file>
+            <file>file:/D:/NetBeans/absensi-karyawan-app/src/absensi/Controller/ControllerAbsensi.java</file>
+            <file>file:/D:/NetBeans/absensi-karyawan-app/src/absensi/Controller/ControllerKaryawan.java</file>
         </group>
     </open-files>
 </project-private>

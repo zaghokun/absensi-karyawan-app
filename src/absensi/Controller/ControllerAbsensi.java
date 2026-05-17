@@ -32,6 +32,9 @@ public class ControllerAbsensi {
     private JLabel     labelTanggal;
     private JLabel     labelJam;
     private JTable     table;
+    
+    public ControllerAbsensi() {
+    }
 
     // Simpan id absensi yang sedang dipilih di tabel
     private int selectedIdAbsensi = -1;
@@ -351,5 +354,9 @@ public class ControllerAbsensi {
 
     public int getNextId() {
         return dao.getMaxId();
+    }
+    
+    public List<Absensi> getAllAbsensi() {
+        return dao.getAll();
     }
 }

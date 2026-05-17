@@ -4,20 +4,30 @@
  */
 package absensi.View;
 
-/**
- *
- * @author ASUS
- */
-public class FormLaporan extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormLaporan.class.getName());
+import absensi.Controller.ControllerAbsensi;
+import absensi.Controller.ControllerKaryawan;
+import absensi.Controller.ControllerShift;
+import absensi.Model.Absensi;
+import absensi.Model.Karyawan;
+import absensi.Model.Shift;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
+public class FormLaporan extends javax.swing.JFrame {
+    private ControllerAbsensi cAbsensi = new ControllerAbsensi();
+    private ControllerKaryawan cKaryawan = new ControllerKaryawan();
+    private ControllerShift cShift = new ControllerShift();
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormLaporan.class.getName());
+    
     /**
      * Creates new form FormLaporan
      */
     public FormLaporan() {
         initComponents();
     }
+    
+    // ... sisa kode ...
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,21 +38,135 @@ public class FormLaporan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtTanggalAwal = new javax.swing.JTextField();
+        txtTanggalAkhir = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnTampilkan = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelLaporan = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        txtTanggalAwal.setText("YYYY-MM-DD");
+
+        txtTanggalAkhir.setText("YYYY-MM-DD");
+
+        jLabel1.setText("Tanggal Awal");
+
+        jLabel2.setText("Tanggal Akhir");
+
+        btnTampilkan.setText("Tampilkan");
+        btnTampilkan.addActionListener(this::btnTampilkanActionPerformed);
+
+        btnKembali.setText("Kembali");
+        btnKembali.addActionListener(this::btnKembaliActionPerformed);
+
+        tabelLaporan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabelLaporan);
+
+        jScrollPane2.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnKembali))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtTanggalAwal, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                        .addComponent(txtTanggalAkhir))
+                    .addComponent(btnTampilkan))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(533, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTanggalAwal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTanggalAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnKembali)
+                            .addComponent(btnTampilkan))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTampilkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilkanActionPerformed
+    String tglAwal = txtTanggalAwal.getText();
+    String tglAkhir = txtTanggalAkhir.getText();
+
+    // 1. Siapkan kolom tabel khusus untuk Laporan
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Nama Karyawan");
+    model.addColumn("Shift");
+    model.addColumn("Tanggal");
+    model.addColumn("Jam Check-in");
+    model.addColumn("Status");
+
+    // 2. Tarik semua data absensi
+    List<Absensi> listAbsensi = cAbsensi.getAllAbsensi(); // Pastikan method ini ada di ControllerAbsensi
+
+    // 3. Filter data dan terjemahkan ID menjadi Nama
+    for (Absensi a : listAbsensi) {
+        // Cek apakah tanggal absensi berada di antara tglAwal dan tglAkhir
+        if (a.getTanggal().compareTo(tglAwal) >= 0 && a.getTanggal().compareTo(tglAkhir) <= 0) {
+            
+            // Ambil object Karyawan dan Shift berdasarkan ID
+            Karyawan k = cKaryawan.getById(a.getFkKaryawan());
+            Shift s = cShift.getById(a.getFkShift());
+
+            // Masukkan data yang sudah diterjemahkan ke dalam baris tabel
+            model.addRow(new Object[]{
+                k != null ? k.getNama() : "Tidak Ditemukan",
+                s != null ? s.getNama_shift() : "Tidak Ditemukan",
+                a.getTanggal(),
+                a.getWaktuCheckin(),
+                a.getStatus()
+            });
+        }
+    }
+
+    // 4. Pasang model ke tabel UI
+    tabelLaporan.setModel(model);
+    }//GEN-LAST:event_btnTampilkanActionPerformed
+
+    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
+     FormDashboard dashboard = new FormDashboard();
+    dashboard.setVisible(true);
+    this.dispose(); // Menutup form laporan saat ini
+    }//GEN-LAST:event_btnKembaliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +194,14 @@ public class FormLaporan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKembali;
+    private javax.swing.JButton btnTampilkan;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tabelLaporan;
+    private javax.swing.JTextField txtTanggalAkhir;
+    private javax.swing.JTextField txtTanggalAwal;
     // End of variables declaration//GEN-END:variables
 }
